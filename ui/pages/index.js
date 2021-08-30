@@ -6,9 +6,15 @@ import { useState } from "react";
 export default function Home() {
   const [targetImage, setTargetImage] = useState(null);
 
-  const handleFile = (e) => {
+  const handleFile = async (e) => {
     const file = e.target.files[0];
     setTargetImage(URL.createObjectURL(file))
+    
+    const response = await fetch(`${process.env.server}/inference`, {
+      method: "POST",
+      body: file
+    })
+    const inference = await response.json();
   };
 
   return (
