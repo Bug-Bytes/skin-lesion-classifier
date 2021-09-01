@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [targetImage, setTargetImage] = useState(null);
+  const [inferences, setInferences] = useState({});
 
   const handleFile = async (e) => {
     const file = e.target.files[0];
@@ -16,7 +17,8 @@ export default function Home() {
       method: "POST",
       body: data
     })
-    const inference = await response.json();
+    const {inference} = await response.json();
+    setInferences(inference);
   };
 
   return (
@@ -38,6 +40,15 @@ export default function Home() {
         <form className={styles.uploadForm}>
           <input type="file" onChange={(e) => handleFile(e)} />
         </form>
+
+        {Object.keys(inferences).length > 0 && (
+          <div className={styles.inferences}>
+            <h1>Likelihoods</h1>
+            {Object.keys(inferences).map(bite_type => (
+              <p key={bite_type} >{`${bite_type}:${inferences[bite_type]}%`}</p>
+            ))}
+          </div>
+        )}
 
         <p className={styles.intro}>
           Bug Bytes is a community project that aims to provide a 
