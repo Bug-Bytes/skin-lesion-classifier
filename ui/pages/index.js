@@ -10,9 +10,11 @@ export default function Home() {
     const file = e.target.files[0];
     setTargetImage(URL.createObjectURL(file))
     
+    const data = new FormData();
+    data.append("file", file);
     const response = await fetch(`${process.env.server}/inference`, {
       method: "POST",
-      body: file
+      body: data
     })
     const inference = await response.json();
   };
