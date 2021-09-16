@@ -31,37 +31,42 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to{" "}
-          <a href="https://www.youtube.com/watch?v=mm-6xt2W1mA">Bug Bytes!</a>
+          <a href="https://www.youtube.com/watch?v=mm-6xt2W1mA">Bug Bytes</a>
         </h1>
 
-        {targetImage && <img src={targetImage} className={styles.target_image}/>}
+
+        <div className={styles.input_section}>
+          {targetImage && <img src={targetImage} className={styles.target_image}/>}
+
+        </div>
+
+        <div className={styles.inference_section}>
+          {Object.keys(inferences).length > 0 && (
+            <div className={styles.inferences}>
+              <h1>Likelihoods</h1>
+              {Object.keys(inferences).map(bite_type => (
+                <p key={bite_type} >{`${bite_type}:${inferences[bite_type]}%`}</p>
+              ))}
+            </div>
+          )}
+        </div>
 
         <form className={styles.uploadForm}>
           <input type="file" onChange={(e) => handleFile(e)} />
         </form>
-
-        {Object.keys(inferences).length > 0 && (
-          <div className={styles.inferences}>
-            <h1>Likelihoods</h1>
-            {Object.keys(inferences).map(bite_type => (
-              <p key={bite_type} >{`${bite_type}:${inferences[bite_type]}%`}</p>
-            ))}
-          </div>
+        
+        {!targetImage && (
+          <p className={styles.intro}>
+            Bug Bytes is a community project that aims to provide a 
+            <a href="https://en.wikipedia.org/wiki/Skin_laceration">
+              {" skin laceration "}
+            </a>
+            detection algorithm that delivers a likelihood of whether a lesion is
+            a bug bite. The project is in progress, and we'd love to hear
+            feedback.
+          </p>
         )}
-
-        <p className={styles.intro}>
-          Bug Bytes is a community project that aims to provide a 
-          <a href="https://en.wikipedia.org/wiki/Skin_laceration">
-            {" skin laceration "}
-          </a>
-          detection algorithm that delivers a likelihood of whether a lesion is
-          a bug bite. The project is in progress, and we'd love to hear
-          feedback.
-        </p>
       </main>
-
-      <footer className={styles.footer}></footer>
     </div>
   );
 }
